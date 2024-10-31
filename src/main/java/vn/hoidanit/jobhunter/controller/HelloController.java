@@ -1,7 +1,6 @@
 package vn.hoidanit.jobhunter.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import vn.hoidanit.jobhunter.domain.User;
-import vn.hoidanit.jobhunter.service.IdInvalidException;
+import vn.hoidanit.jobhunter.service.error.IdInvalidException;
 import vn.hoidanit.jobhunter.service.UserService;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
@@ -33,11 +31,6 @@ public class HelloController {
         User postmanUser = this.userService.handleCreateUser(user);
         // ResponseEntity.ok(postmanUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(postmanUser);
-    }
-
-    @ExceptionHandler(value = IdInvalidException.class)
-    public ResponseEntity<String> handleIdException(IdInvalidException idInvalidException) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(idInvalidException.getMessage());
     }
 
     @DeleteMapping("/users/{id}")
