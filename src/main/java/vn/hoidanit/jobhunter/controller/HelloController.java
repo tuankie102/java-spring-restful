@@ -3,6 +3,8 @@ package vn.hoidanit.jobhunter.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,34 +26,35 @@ public class HelloController {
         this.userService = userService;
     }
 
-    @PostMapping("/user")
-    public User CreateNewUser(@RequestBody User user) {
+    @PostMapping("/users")
+    public ResponseEntity<User> CreateNewUser(@RequestBody User user) {
         User postmanUser = this.userService.handleCreateUser(user);
-        return postmanUser;
+        // ResponseEntity.ok(postmanUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(postmanUser);
     }
 
-    @DeleteMapping("/user/{id}")
-    public String DeleteUser(@PathVariable("id") long id) {
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<String> DeleteUser(@PathVariable("id") long id) {
         this.userService.handleDeleteUser(id);
-        return "Delete a user successful!";
+        return ResponseEntity.ok("Delete a user successful!");
     }
 
-    @GetMapping("user")
-    public List<User> getAllUsers() {
+    @GetMapping("/users")
+    public ResponseEntity<List<User>> getAllUsers() {
 
-        return userService.fetchAllUsers();
+        return ResponseEntity.ok(this.userService.fetchAllUsers());
     }
 
-    @GetMapping("user/{id}")
-    public User getUserById(@PathVariable("id") long id) {
+    @GetMapping("/users/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable("id") long id) {
 
-        return this.userService.fetchUserById(id);
+        return ResponseEntity.ok(this.userService.fetchUserById(id));
     }
 
-    @PutMapping("user")
-    public User updateUser(@RequestBody User user) {
+    @PutMapping("/users")
+    public ResponseEntity<User> updateUser(@RequestBody User user) {
 
-        return this.userService.handleCreateUser(user);
+        return ResponseEntity.ok(this.userService.handleCreateUser(user));
     }
 
 }
